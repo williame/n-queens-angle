@@ -6,10 +6,14 @@ class NQueensWithAngleTest {
 
     @Test
     public void test() {
-        for (int n = 10; n < 20; n++) {
+        // test takes about 8 seconds from cold on my 2019 i7 laptop
+        for (int n = 10; n < 40; n++) {
             NQueensWithAngle test = new NQueensWithAngle(n);
-            assertTrue(test.solve());
-            System.out.println("n=" + n + "\n" + test.drawBoard()); // print for manual inspection
+            long startTs = System.currentTimeMillis();
+            boolean ret = test.solve();
+            System.out.println("n=" + n + " " + (System.currentTimeMillis() - startTs) + "ms");
+            assertTrue(ret);
+            System.out.println(test.drawBoard()); // print for manual inspection
             check(test);
         }
     }
