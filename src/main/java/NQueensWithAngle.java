@@ -81,8 +81,11 @@ public class NQueensWithAngle {
                 queenCounterDiagonalOccupied[counterIndex]) {
             return false;
         }
-        // the angle check involves checking the new queen is not collinear with any pair of already-placed queens
-
+        // the angle check involves checking the new queen is not collinear with any pair of already-placed queens.
+        // For three points to be collinear, the slope between both pairs of points must be the same
+        // e.g. (y3 - y2) / (x3 - x2) = (y2 - y1) / (x2 - x1)
+        // which can be rearranged to
+        // (y3 - y2) * (x2 - x1) = (y2 - y1) * (x3 - x2)
         for (int row2 = 1; row2 < row; row2++) {
             int col2 = queenRows[row2];
             int xDiff1 = column - col2;
@@ -91,11 +94,13 @@ public class NQueensWithAngle {
                 int col3 = queenRows[row3];
                 int xDiff2 = col2 - col3;
                 int yDiff2 = row2 - row3;
-                if ((xDiff1 < 0) == (xDiff2 < 0) && (yDiff2 * xDiff1) == (xDiff2 * yDiff1)) {
+                if ((xDiff1 < 0) == (xDiff2 < 0) && // sloping same sign?
+                        (yDiff2 * xDiff1) == (xDiff2 * yDiff1)) {  // check they are collinear
                     return false;
                 }
             }
         }
+        // queen can be placed, so DFS onwards
         queenRows[row] = column;
         queenColumnsOccupied[column] = true;
         queenLeadingDiagonalOccupied[leadingIndex] = true;
